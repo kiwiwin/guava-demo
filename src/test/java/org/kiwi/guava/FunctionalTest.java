@@ -3,11 +3,14 @@ package org.kiwi.guava;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
+import static com.google.common.base.Functions.forMap;
 import static com.google.common.collect.ImmutableList.of;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.transform;
@@ -56,5 +59,13 @@ public class FunctionalTest {
         List<String> expected = of("jack", "lucy");
         List<String> adultNames = Lists.newArrayList(FluentIterable.from(persons).filter(isAdult()).transform(getPersonName()));
         assertThat(adultNames, is(expected));
+    }
+
+    @Test
+    public void test_forMap() {
+        Map<Person, String> personCountryMap = ImmutableMap.of(new Person("A"), "USA", new Person("B"), "CHN");
+        Function<Person, String> mapFunction = forMap(personCountryMap, "JPN");
+        assertThat(mapFunction.apply(new Person("C")), is("JPN"));
+        assertThat(mapFunction.apply(new Person("A")), is("USA"));
     }
 }
