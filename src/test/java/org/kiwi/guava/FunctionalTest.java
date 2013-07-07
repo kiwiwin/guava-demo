@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.base.Functions.compose;
 import static com.google.common.base.Functions.forMap;
 import static com.google.common.collect.ImmutableList.of;
 import static com.google.common.collect.Iterables.filter;
@@ -67,5 +68,23 @@ public class FunctionalTest {
         Function<Person, String> mapFunction = forMap(personCountryMap, "JPN");
         assertThat(mapFunction.apply(new Person("C")), is("JPN"));
         assertThat(mapFunction.apply(new Person("A")), is("USA"));
+    }
+
+    @Test
+    public void test_composeFunction() {
+        Function<Person, Integer> twentyYearsLater = compose(new Function<Integer, Integer>() {
+                                                                 @Override
+                                                                 public Integer apply(Integer age) {
+                                                                     return age + 20;
+                                                                 }
+                                                             }, new Function<Person, Integer>() {
+                                                                 @Override
+                                                                 public Integer apply(Person person) {
+                                                                     return person.getAge();
+                                                                 }
+                                                             }
+        );
+        List<Integer> expected = of(41, 42, 24);
+        assertThat(Lists.newArrayList(transform(persons, twentyYearsLater)), is(expected));
     }
 }
