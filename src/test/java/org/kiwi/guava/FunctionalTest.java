@@ -2,6 +2,7 @@ package org.kiwi.guava;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import org.junit.Test;
 
@@ -48,5 +49,12 @@ public class FunctionalTest {
                 return foo.getName();
             }
         };
+    }
+
+    @Test
+    public void test_fluentIterable() {
+        List<String> expected = of("jack", "lucy");
+        List<String> adultNames = Lists.newArrayList(FluentIterable.from(persons).filter(isAdult()).transform(getPersonName()));
+        assertThat(adultNames, is(expected));
     }
 }
