@@ -43,15 +43,22 @@ public class CollectionsTest {
         List<String> list1 = asList("A", "B", "C");
         List<String> list2 = asList("D");
         List<String> result = Lists.newArrayList(concat(list1, list2));
-        assertThat(result, hasItems("A", "D"));
+        assertThat(result, is(asList("A", "B", "C", "D")));
     }
 
     @Test
     public void test_partition_list() {
         List<String> list = asList("A", "B", "C", "D", "E");
         List<List<String>> lists = Lists.partition(list, 2);
-        assertThat(lists.get(0), hasItems("A", "B"));
-        assertThat(lists.get(1), hasItems("C", "D"));
-        assertThat(lists.get(2), hasItems("E"));
+        assertThat(lists.get(0), is(asList("A", "B")));
+        assertThat(lists.get(1), is(asList("C", "D")));
+        assertThat(lists.get(2), is(asList("E")));
+    }
+
+    @Test
+    public void test_reverse_list() {
+        List<String> list = asList("A", "B", "C");
+        List<String> expected = asList("C", "B", "A");
+        assertThat(Lists.reverse(list), is(expected));
     }
 }
