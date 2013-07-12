@@ -45,4 +45,13 @@ public class CollectionsTest {
         List<String> result = Lists.newArrayList(concat(list1, list2));
         assertThat(result, hasItems("A", "D"));
     }
+
+    @Test
+    public void test_partition_list() {
+        List<String> list = asList("A", "B", "C", "D", "E");
+        List<List<String>> lists = Lists.partition(list, 2);
+        assertThat(lists.get(0), hasItems("A", "B"));
+        assertThat(lists.get(1), hasItems("C", "D"));
+        assertThat(lists.get(2), hasItems("E"));
+    }
 }
