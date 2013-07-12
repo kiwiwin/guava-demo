@@ -28,4 +28,9 @@ public class CollectionsTest {
     public void test_get_key_by_value() {
         assertThat(userMap.inverse().get(1), is("A"));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_cannot_have_duplicate_value() {
+        userMap.put("C", 1);
+    }
 }
